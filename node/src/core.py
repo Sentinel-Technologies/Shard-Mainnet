@@ -1,6 +1,7 @@
 """
-    Madzcoin Core V 0.14
-    Copyright (c) 2023 The Madzcoin developers
+    core.py
+    Shard Core V 0.10
+    Copyright (c) 2023 The ShardCoin developers
     Distributed under the MIT software license, see the accompanying
     For copying see http://opensource.org/licenses/mit-license.php.
 """
@@ -527,7 +528,7 @@ class peer_discovery(object):
             except:
                 nodeping = {"success": False}
 
-            if nodeping["success"] == True and url != self.public_node["url"]:
+            if nodeping["success"] == True and url != self.public_node["url"] and NodeVer == VER:
                 self.addtopeerlist(url)
 
 
@@ -588,7 +589,7 @@ class Node(object):
 
     def initNode(self):
         self.keys = get_priv()
-        
+
         try:
             self.loadDB()
         except:
@@ -674,17 +675,17 @@ class Node(object):
     def askForMorePeers(self):
         for peer in self.peerlist:
             try:
-                obtainedPeers = requests.get(f"{peer}/net/getOnlinePeers")
-                peerver = requests.get(f"{peer}/NodeVer").json()["result"]
+                obtainedPeers = requests.get(f"{peer}/net/getOnlinePeers").json()["result"]
+                for peer in obtainedPeers:
+                    peerver = requests.get(f"{obtainedPeers}/NodeVer").json()["result"]
+                    nodeHeight = requests.get(f"{obtainedPeers}/chain/length").json()["result"]
 
-                if peerver == VER:
-
-                    if obtainedPeers.status_code == 200:
-                        obtainedPeers = obtainedPeers.json() 
-                        obpeersjson = str(str(obtainedPeers["result"])[1:-1])[1:-1]
-                        self.peer_discovery.addtopeerlist(obpeersjson)
-                else:
-                    self.peer_discovery.remove_peer(peer)
+                    if peerver == VER and nodeHeight <= node.state.beaconChain.blocks:
+                            obpeersjson = str(str(obtainedPeers["result"])[1:-1])[1:-1]
+                            self.peer_discovery.check_add_peer(obpeersjson)
+                            self.peerlist.append(obtainedPeers)
+                    else:
+                        self.peer_discovery.remove_peer(peer)
 
             except requests.exceptions.RequestException:
                 pass
@@ -707,6 +708,7 @@ class Node(object):
                     peerver = requests.get(f"{peer}/NodeVer").json()["result"]
                     if peerver == VER and peer not in [self.public_node["url"], "", " "]:
                         self.goodPeers.append(peer)
+                        self.peer_discovery.check_add_peer(peer)
                     else:
                         self.peerlist.remove(peer)
             except:
@@ -718,6 +720,7 @@ class Node(object):
             try:
                 if requests.get(f"{peer}/ping").json()["success"] and peer not in self.goodPeers:
                     self.goodPeers.append(peer)
+                    self.peer_discovery.check_add_peer(peer)
             except:
                 pass
 

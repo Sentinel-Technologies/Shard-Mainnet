@@ -1,6 +1,7 @@
 """
-    Madzcoin Core V 0.14
-    Copyright (c) 2023 The Madzcoin developers
+    web.py
+    Shard Core V 0.10
+    Copyright (c) 2023 The ShardCoin developers
     Distributed under the MIT software license, see the accompanying
     For copying see http://opensource.org/licenses/mit-license.php.
 """
@@ -269,7 +270,7 @@ def create_upload_file():
 
 @app.post("/net/NewPeer")
 async def newnodes(request: fastapi.Request):
-    peer_url = (await request.body()).decode("utf-8") 
+    peer_url = (await request.body()).decode("utf-8")
     peer_discovery(read_yaml_config(print_host = False)[0]).check_add_peer(peer_url)
 
 

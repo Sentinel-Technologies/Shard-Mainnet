@@ -1,7 +1,6 @@
 import getpass
 import os
 import secrets
-import urllib
 
 import rich
 from eth_account import Account
@@ -45,10 +44,10 @@ def get_priv():
         with open(file_paths.privkey, "r") as f:
             priv = f.readlines()[0]
             public_key = Account.from_key(priv).address
-        
+
 
     return {"public": public_key, "private": priv}
-                
+
 
 def read_yaml_config(print_host = True):
     if os.path.exists(file_paths.config):
@@ -91,6 +90,6 @@ def read_yaml_config(print_host = True):
                 ssl_keyfile = None
                 ssl_certfile = None
                 ssl_ca_certs = None
-                          
+
 
             return ({"url": nodeURL}, {"host": privateHost, "port": privatePort}, {"ssl_keyfile": ssl_keyfile, "ssl_certfile": ssl_certfile, "ssl_ca_certs": ssl_ca_certs})
