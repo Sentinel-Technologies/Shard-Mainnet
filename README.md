@@ -1,6 +1,6 @@
 </div>
 <h1 align="center">Shard Mainnet</h1>
-<h2 align="center">Forked from SHRDcoin since i got kicked out of org</h2>
+<h2 align="center">Forked from Madzcoin since i got kicked out of org</h2>
 
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/superpythonguy/shard-mainnet?color=56BEB8">
