@@ -81,7 +81,7 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/superpythonguy/shard-mainnet.git
+$ git clone https://github.com/Sentinel-Technologies/shard-mainnet.git
 
 # cd into the cloned repo
 $ cd Shard mainnet
