@@ -495,6 +495,7 @@ class State(object):
 
 # Going to add a Tax system to discourage big miners from taking over network
 # Adapting from this repo/guide https://github.com/UpgradeDenied/SiriTax/blob/main/README.md
+# Going to ask my non existant community
 class Tax(object):
     def __init__(self) -> None:
         self.low = 0.5 # Take 0.5% Tax on low powered Miners
