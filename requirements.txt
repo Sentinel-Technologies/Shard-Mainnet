@@ -18,3 +18,4 @@ pyyaml
 Pillow
 madzpy
 qrcode
+customtkinter
