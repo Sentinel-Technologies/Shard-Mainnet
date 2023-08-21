@@ -5,6 +5,7 @@
     Distributed under the MIT software license, see the accompanying
     For copying see http://opensource.org/licenses/mit-license.php.
 """
+# Code is decapredated please wait for a new update
 import requests, madzpy, qrcode, time
 from PIL import Image
 from customtkinter import *

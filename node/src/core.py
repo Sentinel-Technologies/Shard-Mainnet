@@ -493,6 +493,17 @@ class State(object):
         else:
             return None
 
+# Going to add a Tax system to discourage big miners from taking over network
+# Adapting from this repo/guide https://github.com/UpgradeDenied/SiriTax/blob/main/README.md
+class Tax(object):
+    def __init__(self) -> None:
+        self.low = 0.5 # Take 0.5% Tax on low powered Miners
+        self.med = 2.5 # Take 2.5% Tax on medium powered Miners
+        self.high = 5.0 # Take 5.0% Tax on high powered Miners
+
+    def calc_deductions():
+        pass
+    
 class peer_discovery(object):
     def __init__(self, public_node):
         self.public_node = public_node
@@ -658,6 +669,7 @@ class Node(object):
         rgbPrint(f"Time taken to upgrade TXs: {round(time.perf_counter() - start, 2)}s", "yellow")
         return changed_anything
 
+# This code is 1000% cursed we really need to rewrite the entire core
 # REQUESTING DATA FROM PEERS
     def newpeersend(self): #Add your node, to the peers
         self.checkGuys()
