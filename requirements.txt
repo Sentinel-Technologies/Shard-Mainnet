@@ -9,10 +9,12 @@ pyskein
 requests
 rich
 rlp
-web3
+web3==5.29.2
 py_cpuinfo
 psutil
 pypresence
 mock
 pyyaml
 Pillow
+madzpy
+qrcode

@@ -22,7 +22,7 @@ class App():
         self.app = CTk()
         w, h = self.app.winfo_screenwidth(), self.app.winfo_screenheight()
         self.app.geometry("%dx%d+0+0" % (w, h))
-        self.app.iconbitmap("data/Shardcoin.ico")
+        self.app.iconbitmap("data/Shardcoin.png")
         self.app.title(f"Shard Core V{VER}")
 
         self.tabview = CTkTabview(self.app)
