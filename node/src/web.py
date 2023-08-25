@@ -47,10 +47,14 @@ def getping():
 
 @app.get("/stats")
 def getStats():
-    _stats_ = {"coin": {"transactions": len(node.txsOrder), "supply": node.state.totalSupply, "holders": len(node.state.holders)}, "chain": {"length": len(node.state.beaconChain.blocks), "difficulty": node.state.beaconChain.difficulty, "cumulatedDifficulty": node.state.beaconChain.cummulatedDifficulty, "IdealBlockTime": IdealBlockTime, "LastBlockTime": node.state.beaconChain.getLastBeacon().timestamp - node.state.beaconChain.getBlockByHeightJSON(int(len(node.state.beaconChain.blocks)-2))["timestamp"], "blockReward": BlockReward,  "target": node.state.beaconChain.miningTarget, "lastBlockHash": node.state.beaconChain.getLastBeacon().proof}, "node": {"owner": PUB_KEY, "last_registration_tx": REG_TXID, "version": VER}}
+    _stats_ = {"coin": {"transactions": len(node.txsOrder), "supply": node.state.totalSupply, "holders": len(node.state.holders)}, "chain": {"length": len(node.state.beaconChain.blocks), "difficulty": node.state.beaconChain.difficulty, "cumulatedDifficulty": node.state.beaconChain.cummulatedDifficulty, "IdealBlockTime": IdealBlockTime, "LastBlockTime": node.state.beaconChain.getLastBeacon().timestamp - node.state.beaconChain.getBlockByHeightJSON(int(len(node.state.beaconChain.blocks)-2))["timestamp"], "blockReward": node.state.beaconChain.blockReward,  "target": node.state.beaconChain.miningTarget, "lastBlockHash": node.state.beaconChain.getLastBeacon().proof}, "node": {"owner": PUB_KEY, "last_registration_tx": REG_TXID, "version": VER}}
     return jsonify(result=_stats_, success=True)
 
 # HTTP GENERAL GETTERS - pulled from `Node` class
+@app.get("/get/mempool/length")
+def GetMempoolLength():
+    return jsonify(result=len(node.mempool))
+
 @app.get("/get/transactions") # get all transactions in node
 def getTransactions():
     return jsonify(result=node.transactions, success=True)
@@ -129,7 +133,6 @@ def getMultipleTransactionsByHashes(txhashes: str):
 @app.get("/get/numberOfReferencedTxs") # get number of referenced transactions
 def numberOfTxs():
     return jsonify(result=len(node.txsOrder), success=True)
-
 
 
 # ACCOUNT-BASED GETTERS (obtained from `State` class)
@@ -244,6 +247,7 @@ def getMiningInfo():
 @app.get("/chain/length")
 def getChainLength():
     return jsonify(result=len(node.state.beaconChain.blocks), success=True)
+
 
 # Peers
 @app.get("/NodeVer")
