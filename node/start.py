@@ -10,12 +10,12 @@ import threading
 
 from src.core import rgbPrint
 from src.web import runNode
-#from src.gui import runapp
+from src.gui import runapp
 
 rgbPrint("Starting Node...", "green")
 
 if __name__ == "__main__":
     t1 = threading.Thread(target=runNode)
-    #t2 = threading.Thread(target=runapp)
+    t2 = threading.Thread(target=runapp)
     t1.start()
-    #t2.start()
+    t2.start()
