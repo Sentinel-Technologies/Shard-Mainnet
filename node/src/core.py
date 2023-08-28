@@ -224,21 +224,6 @@ class Beacon(object):
     def exportJson(self):
         return {"transactions": self.transactions, "messages": self.messages.hex(), "parent": self.parent, "son": self.son, "timestamp": self.timestamp, "height": self.number, "miningData": {"miner": self.miner, "nonce": self.nonce, "difficulty": self.difficulty, "miningTarget": self.miningTarget, "proof": self.proof}}
 
-class Halving(object):
-    def __init__(self, BlockReward : int , Interval : int, Height : int):
-        self.BlockReward = BlockReward
-        self.Interval = Interval
-        self.Height = Height
-        
-    def halving(self):
-        # Calculate how many halvings have occurred
-        halvings = self.Height // self.Interval
-    
-        # Reduce the block reward by half for each halving
-        reward = self.BlockReward / (2 ** halvings)
-    
-        # Return the reward as an integer
-        return int(reward)
 
 class BeaconChain(object):
     def __init__(self):
@@ -247,12 +232,10 @@ class BeaconChain(object):
         self.blocks = [GenesisBeacon()]
         self.blocksByHash = {self.blocks[0].proof: self.blocks[0]}
         self.pendingMessages = []
+        self.blockReward = BlockReward
         self.blockTime = IdealBlockTime
-        self.Interval = Interval
         self.cummulatedDifficulty = self.difficulty
-        self.halving = Halving(BaseBlockReward, self.Interval, len(self.blocks))
-        self.blockReward = self.halving.halving()
-        
+
     def checkBeaconMessages(self, beacon):
         _messages = beacon.messages.decode().split(",")
         for msg in _messages:
@@ -458,12 +441,7 @@ class State(object):
         if showMessage:
             rgbPrint(f"\n-----------\nNew Transfer executed!\nAmount transferred: {tx.value}\nFrom: {tx.sender}\nTo: {tx.recipient} \n-----------\n", "yellow")
         return (True, "Transfer succeeded")
-    
-    # Going to add a Network fee system
-    # 0.25% of transaction amount
-    def calc_fee(self, amount):
-        pass
-            
+
     def mineBlock(self, tx, showMessage):
         try:
             self.ensureExistence(tx.sender)
@@ -515,6 +493,18 @@ class State(object):
         else:
             return None
 
+# Going to add a Tax system to discourage big miners from taking over network
+# Adapting from this repo/guide https://github.com/UpgradeDenied/SiriTax/blob/main/README.md
+# Going to ask my non existant community
+class Tax(object):
+    def __init__(self) -> None:
+        self.low = 0.5 # Take 0.5% Tax on low powered Miners
+        self.med = 2.5 # Take 2.5% Tax on medium powered Miners
+        self.high = 5.0 # Take 5.0% Tax on high powered Miners
+
+    def calc_deductions():
+        pass
+    
 class peer_discovery(object):
     def __init__(self, public_node):
         self.public_node = public_node

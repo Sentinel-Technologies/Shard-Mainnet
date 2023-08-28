@@ -17,8 +17,7 @@ file_paths.privkey = "data/acc.priv"
 Web3ChainID = 5151
 CoinName = "ShardCoin"
 IdealBlockTime = 300
-BaseBlockReward = 2048 # base supply reward can't go lower than this
-Interval = 105120 # Every two years blocks rewards get halved
+BlockReward = 10.5
 
 try:
     data = yaml.safe_load(open(file_paths.config))
